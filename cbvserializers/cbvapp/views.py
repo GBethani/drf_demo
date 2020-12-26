@@ -49,7 +49,7 @@ class StudentDetail(APIView):
         student.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 '''
-
+'''
 class StudentList(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
@@ -72,3 +72,12 @@ class StudentDetail(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.Des
 
     def delete(self,request,pk):
         return self.destroy(request,pk)
+'''
+
+class StudentList(generics.ListCreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
