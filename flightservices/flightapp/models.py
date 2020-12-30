@@ -1,5 +1,8 @@
 from django.db import models
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+from django.conf import settings
 # Create your models here.
 class Flight(models.Model):
     flightnumber = models.CharField(max_length=10)
@@ -28,3 +31,8 @@ class Reservation(models.Model):
 
     def __str__(self):
         return self.flight + ' by '+ self.passenger
+
+@receiver(post_save,sender=settings.AUTH_USER_MODEL)
+def createToken(sender,instance,created,**kwargs):
+    if created:
+        Token.objects.create(user=instance)
